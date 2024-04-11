@@ -4,12 +4,7 @@ import { MessagesService } from './messages.service';
 
 @Controller('messages')
 export class MessagesController {
-  messagesService : MessagesService
-
-  constructor() {
-    // BADDD, USE DI
-    this.messagesService = new MessagesService()
-  }
+  constructor(public messagesService: MessagesService) {}
 
   @Get()
   listMessages() {
@@ -18,13 +13,11 @@ export class MessagesController {
 
   @Post()
   createMessage(@Body() body: CreateMessageDto) {
-    console.log(body);
     return this.messagesService.create(body.content) 
   }
 
   @Get('/:id')
   async getMessage(@Param('id') id: string) {
-    console.log(id);
     const message = await this.messagesService.findOne(id)
 
     if(!message) {
